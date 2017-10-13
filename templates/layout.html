@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ url_for('static', filename='css/chat.css') }}" rel="stylesheet">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/materialize.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-4">
+        <a href="/" class="brand-logo center">pyCHAT</a>
+      </div>
+    </nav>
+    <div class="container">
+    {% block body %}{% endblock %}
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+  </body>
+</html>
