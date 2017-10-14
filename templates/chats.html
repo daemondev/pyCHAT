@@ -23,12 +23,16 @@
     </div>
   </form>
 </div>
+<div id="div_chatWrapper">
+     <div id="div_chatContainner">
+         <ul id="chat-list" class="collection">
+            {% for chat in chats %}
+            <li class="collection-item">{{ chat.name }} - {{ chat.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
-<ul id="chat-list" class="collection">
-    {% for chat in chats %}
-    <li class="collection-item">{{ chat.name }} - {{ chat.message }}</li>
-    {% endfor %}
-</ul>
 <script src="{{ url_for('static', filename='js/socket.io.js') }} "></script>
 <script src="{{ url_for('static', filename='js/axios.js') }}"></script>
 <script>

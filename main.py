@@ -68,6 +68,7 @@ def watch_chats():
     print('Watching db for new chats!')
     conn = r.connect(host='localhost', port=28015,db='chat')
     feed = r.table("chats").changes().run(conn)
+    print('DB Updated!!!')
     for chat in feed:
         chat['new_val']['created'] = str(chat['new_val']['created'])
         socketio.emit('new_chat', chat)
@@ -75,7 +76,11 @@ def watch_chats():
 
 if __name__ == "__main__":
     # Set up rethinkdb changefeeds before starting server
+    #https://www.rethinkdb.com/docs/cookbook/javascript/
     #https://stackoverflow.com/questions/30715780/reql-date-and-time-queries
+    #https://github.com/rethinkdb/rethinkdb/issues/3740
+    #https://github.com/rethinkdb/rethinkdb/issues/6285
+    #https://github.com/rethinkdb/rethinkdb/issues/997
     parser = argparse.ArgumentParser(description='Run the Flask todo app')
     parser.add_argument('--setup', dest='run_setup', action='store_true')
 

@@ -1,0 +1,5 @@
+https://www.sitepoint.com/react-vs-angular/
+https://www.codementor.io/chrisharrington/react-vs-angularjs-how-the-two-compare-8t6f1ioan
+https://www.paradigmadigital.com/dev/versus-react-vs-angular-2/
+http://blog.enriqueoriol.com/2016/10/intro-a-webpack.html
+http://blog.enriqueoriol.com/2016/12/webworkers-angular-2-webpack.html
