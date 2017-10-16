@@ -42,21 +42,34 @@ var nameInput = document.getElementById('name');
 var messageInput = document.getElementById('message');
 var chatList = document.getElementById('chat-list');
 
+//var socket = io.connect('http://' + document.domain + ':' + location.port+"/chat");
 var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+socket.on('ws', function(data){
+    chatList.innerHTML = '<li class="collection-item">'+data.name+' - '+data.message+'</li>' + chatList.innerHTML;
+});
+
 socket.on('new_chat', function(data) {
-  chatList.innerHTML = '<li class="collection-item">'+data.new_val.name+' - '+data.new_val.message+'</li>' + chatList.innerHTML;
+    chatList.innerHTML = '<li class="collection-item">'+data.new_val.name+' - '+data.new_val.message+'</li>' + chatList.innerHTML;
 });
 
 chatForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  var request = axios.post('/chats/', {
-    name: nameInput.value,
-    message: messageInput.value
-  });
-  request.then(function(data) {
-    console.log(data);
-  })
-  messageInput.value = "";
+    e.preventDefault();
+    ///*
+    socket.emit('add_new_chat', {
+        "name": nameInput.value,
+        "message": messageInput.value
+    }); /**/
+
+    /*
+    var request = axios.post('/chats/', {
+        name: nameInput.value,
+        message: messageInput.value
+    });
+    request.then(function(data) {
+        console.log(data);
+    })//**/
+    messageInput.value = "";
 });
 </script>
 {% endblock %}
