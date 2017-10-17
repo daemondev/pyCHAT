@@ -36,6 +36,7 @@ def init_db():
     try:
         r.db_create(app.config['DB_NAME']).run(conn)
         r.db(app.config['DB_NAME']).table_create('chats').run(conn)
+        r.db(app.config['DB_NAME']).table_create('users').run(conn)
         r.db(app.config['DB_NAME']).table('chats').index_create('created').run(conn)
         print('Database setup completed. Now run the app without --setup.')
     except RqlRuntimeError:
@@ -84,28 +85,44 @@ def addNewChat(data):
 
     socketio.emit('ws', chatInput)
 ######################################################################################
+from queue import Queue
+stream_queue = Queue()
 def watch_chats():
     #while 1:
     #socketio.sleep(1)
     print('\n#################################\n###>>> Watching db for new chats!\n#################################\n\n')
     conn = r.connect(host='localhost', port=28015, db='chat')
+    #r.union(r.table('chats').changes(), r.table('users').changes()).run(conn)
     feed = r.table("chats").changes().run(conn)
     for chat in feed:
+        stream_queue.put(chat)
         chat['new_val']['created'] = str(chat['new_val']['created'])
         socketio.emit('new_chat', chat)
 ######################################################################################
 
-def main_thread_worker():
-    print('##########################\nin main thread\n##########################')
-    while 1:
+def watch_chats_socketio_mode():
+    print('##########################\nin watch_chats_socketio_mode\n##########################')
+    while True:
         print('##########################\nin BUCLE WHILE\n#####################')
-        socketio.sleep(1)
 
         conn = r.connect(host='localhost', port=28015, db='chat')
-        feed = r.table("chats").changes().run(conn)
+        print(">>> connected <<<")
+        #feed = yield r.table("chats").changes().run(conn)
+        feed = r.table("chats").changes(squash=False).run(conn)
+        print(">>> wait chats (changes in DB) <<<")
+        #if feed is not None:
+            #print(">>> feeds is not empty <<<")
         for chat in feed:
+            stream_queue.put(chat)
+            #chat = feed.next(wait=False)
+            print("loop chats")
             chat['new_val']['created'] = str(chat['new_val']['created'])
             socketio.emit('new_chat', chat)
+        #else:
+            #print(">>> else")
+
+        print(">>> exiting <<<")
+        socketio.sleep(1)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='pyCHAT')
@@ -123,7 +140,11 @@ if __name__ == "__main__":
 
         """
         if main_thread is None:
-            main_thread = socketio.start_background_task(target=watch_chats)
-            main_thread = socketio.start_background_task(target=main_thread_worker) #"""
+            #main_thread = socketio.start_background_task(target=watch_chats)
+            main_thread = socketio.start_background_task(watch_chats_socketio_mode) #"""
 
         socketio.run(app, host='0.0.0.0', port=8000, debug=True)
+
+#https://iotmakerblog.wordpress.com/2016/06/04/page/2/
+#https://rethinkdb.com/docs/changefeeds/python/
+#https://rethinkdb.com/blog/chad-lung-python3/
