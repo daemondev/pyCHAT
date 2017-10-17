@@ -10,6 +10,7 @@ python main.py --setup
 For try with ipython
 ====================
 
+```python
 import rethinkdb as r
 from datetime import datetime
 
@@ -30,3 +31,4 @@ def drop():
 
 drop()
 ins()
+```
