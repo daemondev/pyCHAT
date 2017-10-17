@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, make_response, request, redirect, url_for, jsonify, abort
+from flask import Flask, g, render_template, make_response, request, redirect, url_for, jsonify, abort, Response
 from flask_socketio import SocketIO, send, emit
 from threading import Thread
 import rethinkdb as r
@@ -6,8 +6,42 @@ from rethinkdb import RqlRuntimeError, RqlDriverError
 import json
 from datetime import datetime
 import argparse
+from functools import wraps
+#from flask_sslify import SSLify
+
+from OpenSSL import SSL
+context = SSL.Context(SSL.SSLv23_METHOD)
+context.use_privatekey_file('key.pem')
+context.use_certificate_file('cert.pem')
+
+
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'admin' and password == 'secret'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+
+
 
 app = Flask(__name__)
+#sslify = SSLify(app)
 socketio = SocketIO(app)
 global thread
 thread = None
@@ -32,6 +66,11 @@ def init_db():
         print('App database already exists. Run the app without --setup.')
     finally:
         conn.close()
+
+@app.route('/secret-page')
+@requires_auth
+def secret_page():
+    return render_template('admin.html')
 
 @app.before_request
 def before_request():
@@ -78,7 +117,18 @@ if __name__ == "__main__":
     if args.run_setup:
         init_db()
     else:
+        #"""
         if thread is None:
             thread = Thread(target=watch_chats)
-            thread.start()
+            thread.start() #"""
+        #CERT_FILE = "cert2.pem"
+        #KEY_FILE = "key2.pem"
+        #context(CERT_FILE, KEY_FILE,)
+        #socketio.run(app, host='0.0.0.0', port=8000, ssl_context='adhoc')
         socketio.run(app, host='0.0.0.0', port=8000)
+        #socketio.run(app, host='0.0.0.0', port=8000, ssl_context=context)
+
+        #from cert_creator import *
+        #socketio.run(app, certfile=CERT_FILE, keyfile=KEY_FILE, port=8000)
+
+#http://eventlet.net/doc/modules/wsgi.html#ssl

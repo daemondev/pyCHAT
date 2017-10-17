@@ -9,3 +9,5 @@ http://blog.enriqueoriol.com/2016/12/webworkers-angular-2-webpack.html
     #https://github.com/rethinkdb/rethinkdb/issues/3740
     #https://github.com/rethinkdb/rethinkdb/issues/6285
     #https://github.com/rethinkdb/rethinkdb/issues/997
+
+https://slproweb.com/products/Win32OpenSSL.html
