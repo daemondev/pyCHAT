@@ -3,3 +3,14 @@ https://www.codementor.io/chrisharrington/react-vs-angularjs-how-the-two-compare
 https://www.paradigmadigital.com/dev/versus-react-vs-angular-2/
 http://blog.enriqueoriol.com/2016/10/intro-a-webpack.html
 http://blog.enriqueoriol.com/2016/12/webworkers-angular-2-webpack.html
+
+#https://github.com/miguelgrinberg/python-socketio/issues/16
+#https://github.com/miguelgrinberg/Flask-SocketIO/issues/462
+#https://flask-socketio.readthedocs.io/en/latest/#flask_socketio.SocketIO.emit
+#https://github.com/miguelgrinberg/Flask-SocketIO/issues/117
+# Set up rethinkdb changefeeds before starting server
+#https://www.rethinkdb.com/docs/cookbook/javascript/
+#https://stackoverflow.com/questions/30715780/reql-date-and-time-queries
+#https://github.com/rethinkdb/rethinkdb/issues/3740
+#https://github.com/rethinkdb/rethinkdb/issues/6285
+#https://github.com/rethinkdb/rethinkdb/issues/997

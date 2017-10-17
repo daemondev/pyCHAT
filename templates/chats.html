@@ -42,7 +42,6 @@ var nameInput = document.getElementById('name');
 var messageInput = document.getElementById('message');
 var chatList = document.getElementById('chat-list');
 
-//var socket = io.connect('http://' + document.domain + ':' + location.port+"/chat");
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on('ws', function(data){
