@@ -13,7 +13,8 @@ deps
 - greenlet==0.4.12
 - rethinkdb==2.3.0.post6
 
-Install [RethinkDB - https://www.rethinkdb.com/docs/install/ ] (https://www.rethinkdb.com/docs/install/)
+Install [RethinkDB - https://www.rethinkdb.com/docs/install/ ](https://www.rethinkdb.com/docs/install/)
+
 
 
 
