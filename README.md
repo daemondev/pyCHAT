@@ -5,6 +5,13 @@ For initialize the RethinkDB database: Run before:
 python main.py --setup
 ======================
 
+deps
+====
+
+Flask==0.12.2
+Flask-SocketIO==2.9.2
+greenlet==0.4.12
+rethinkdb==2.3.0.post6
 
 
 For try with ipython
