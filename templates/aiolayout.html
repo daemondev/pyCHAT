@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ app.router.static.url(filename='css/chat.css') }}" rel="stylesheet">
+    <link rel="stylesheet"  href="{{ app.router.static.url(filename='css/materialize.css') }}">
+    <link rel="stylesheet"  href="{{ app.router.static.url(filename='css/perfect-scrollbar.min.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-4">
+        <a href="/" class="brand-logo center">pyCHAT</a>
+      </div>
+    </nav>
+    <div class="container">
+    {% block body %}{% endblock %}
+    </div>
+    <script type="text/javascript" src="{{ app.router.static.url(filename='js/jquery.js') }}"></script>
+    <script src="{{ app.router.static.url(filename='js/perfect-scrollbar.with-mousewheel.min.js') }} "></script>
+    <script src="{{ app.router.static.url(filename='js/template.js') }} "></script>
+
+    <script src="{{ app.router.static.url(filename='js/materialize.js') }}"></script>
+  </body>
+</html>

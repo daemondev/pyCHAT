@@ -1,0 +1,84 @@
+{% extends "aiolayout.html" %}
+
+{% block title %}pyCHAT{% endblock %}
+
+{% block body %}
+
+<div class="row">
+  <form class="col s12" id="chat-form">
+    <div class="row">
+      <div class="input-field col s3">
+        <i class="material-icons prefix">account_circle</i>
+        <input id="name" class="materialize-input" placeholder="Name">
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">mode_edit</i>
+        <input id="message" class="materialize-input" placeholder="Message">
+      </div>
+      <div class="input-field col s3">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Send
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="div_chatWrapper">
+     <div id="div_chatContainner">
+         <ul id="chat-list" class="collection">
+            {% for chat in chats %}
+            <li class="collection-item">{{ chat.name }} - {{ chat.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!--<script src="{{ app.router.static.url(filename='js/socket.io.js') }}"></script>-->
+<script src="{{ app.router.static.url(filename='js/engine.io.js') }}"></script>
+<script src="{{ app.router.static.url(filename='js/axios.js') }}"></script>
+<script>
+
+var chatForm = document.getElementById('chat-form');
+var nameInput = document.getElementById('name');
+var messageInput = document.getElementById('message');
+var chatList = document.getElementById('chat-list');
+
+//var socket = io.connect('http://' + document.domain + ':' + location.port);
+var socket = eio('ws://' + document.domain + ':' + location.port);
+
+
+ws = new WebSocket('ws://' + document.domain + ':' + location.port);
+
+ws.onopen = function(){
+    alert("WS alone");
+};
+
+socket.on('open', function(){
+    socket.on('message', function(data){ alert(data.data); });
+    socket.on('close', function(){});
+    //alert("EIO");
+
+    socket.on('ws', function(data){
+        chatList.innerHTML = '<li class="collection-item">'+data.name+' - '+data.message+'</li>' + chatList.innerHTML;
+    });
+
+    socket.on('new_chat', function(data) {
+        chatList.innerHTML = '<li class="collection-item">'+data.new_val.name+' - '+data.new_val.message+'</li>' + chatList.innerHTML;
+    });
+
+chatForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    ///*
+    //socket.send('add_new_chat', {
+    socket.send({'def':'add_new_chat',
+        "name": nameInput.value,
+        "message": messageInput.value
+    }); /**/
+
+    messageInput.value = "";
+});
+});
+
+
+</script>
+{% endblock %}

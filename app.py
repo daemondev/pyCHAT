@@ -132,10 +132,10 @@ if __name__ == "__main__":
     if args.run_setup:
         init_db()
     else:
-        #"""
+        """
         if thread is None:
             thread = Thread(target=watch_chats)
-            thread.setDaemon(True)
+            #thread.setDaemon(True)
             thread.start() #"""
 
         """
