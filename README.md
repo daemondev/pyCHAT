@@ -1,7 +1,10 @@
 # pyPANEL & pyCHAT - for pyBOT remote - management
 
+First
+=====
+
 Install [RethinkDB - https://www.rethinkdb.com/docs/install/ ](https://www.rethinkdb.com/docs/install/) and RUN: "rethinkdb --bind all"
-=======
+
 
 For initialize the RethinkDB database: Run before:
 
