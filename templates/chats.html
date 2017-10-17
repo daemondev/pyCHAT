@@ -43,10 +43,13 @@ var messageInput = document.getElementById('message');
 var chatList = document.getElementById('chat-list');
 
 var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+//### Populate the ChatList
 socket.on('new_chat', function(data) {
   chatList.innerHTML = '<li class="collection-item">'+data.new_val.name+' - '+data.new_val.message+'</li>' + chatList.innerHTML;
 });
 
+//### Insert a ChatMessage
 chatForm.addEventListener('submit', function(e) {
   e.preventDefault();
   var request = axios.post('/chats/', {
