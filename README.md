@@ -5,12 +5,6 @@ First
 
 Install [RethinkDB - https://www.rethinkdb.com/docs/install/ ](https://www.rethinkdb.com/docs/install/) and RUN: "rethinkdb --bind all"
 
-
-For initialize the RethinkDB database: Run before:
-
-python main.py --setup
-======================
-
 deps
 ====
 
@@ -19,6 +13,11 @@ deps
 - greenlet==0.4.12
 - rethinkdb==2.3.0.post6
 
+
+For initialize the RethinkDB database: Run before:
+
+python main.py --setup
+======================
 
 For try with ipython
 ====================
